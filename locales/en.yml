@@ -1,0 +1,18 @@
+menu.link.firm:               "Company"
+menu.link.realizations:       "Realisations"
+menu.link.clients:            "Clients"
+menu.link.contact:            "Contact"
+
+body.firm.header01:           "Creativity"
+body.firm.para01:             "Every new idea of our clients is our starting point for seeking out unconventional solutions, regardless of the budget or difficulty. We thrive on challenges."
+body.firm.header02:           "Experience"
+body.firm.para02:             "Experience is a guarentee for quality, and we have been creating the highest standard materials for 20 years. We are with you every step of the way- from the first idea, to the final cut, whether it be a commercial, corporate film, or complicated television production, in studio or live. We always strive for perfection."
+body.firm.header03:           "Reliability"
+body.firm.para03:             "We stick to the calendar. The production schedule is essential, and we make sure every task is broken down in a detailed cost calculation. We know how important it is to have clear management. No surprises."
+
+contactForm.placeholder.email:    "Your email"
+contactForm.placeholder.body:     "Your message body"
+contactForm.buttonSend:           "Send"
+
+contactForm.message.OK:           "Your message was sent."
+contactForm.message.Error:        "There was an error"

@@ -1,0 +1,30 @@
+{
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.9.1",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.9.1.js",
+                    "type": "file"
+                }
+            }
+        }
+    ],
+    "require": {
+        "jquery/jquery": "1.9.*",
+        "silex/silex": "1.0.*@dev",
+        "twig/twig": ">=1.8,<2.0-dev",
+        "symfony/translation": "2.*",
+        "symfony/config": "2.*",
+        "symfony/validator": "2.*",
+        "symfony/form": "2.*",
+        "symfony/locale": "2.*",
+        "symfony/twig-bridge": "2.*",
+        "symfony/yaml": "2.*",
+        "swiftmailer/swiftmailer": "5.*",
+        "facebook/php-sdk": "*"
+
+    }
+}

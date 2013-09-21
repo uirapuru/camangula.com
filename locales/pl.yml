@@ -1,0 +1,19 @@
+menu.link.firm:               "Firma"
+menu.link.realizations:       "Realizacje"
+menu.link.clients:            "Klienci"
+menu.link.contact:            "Kontakt"
+
+body.firm.header01:           "Kreatywność"
+body.firm.para01:             "Każdy nowy pomysł naszych klientów, to dla nas punkt wyjścia do poszukiwania niekonwencjonalnych rozwiązań. Niezależnie od budżetu i skali trudności. Lubimy wyzwania."
+body.firm.header02:           "Doświadczenie"
+body.firm.para02:             "Doświadczenie to gwarancja jakości. Od pomysłu do materiału emisyjnego. Od reklamy, przez filmy korporacyjne, po skomplikowane formaty telewizyjne. W studiu i na żywo. Od 20 lat na najwyższym poziomie"
+body.firm.header03:           "Solidność"
+body.firm.para03:             "Pracujemy z kalendarzem w ręku. Harmonogram produkcji to podstawa. Każde działanie ma swój odnośnik w szczegółowym kosztorysie. Rozumiemy jak ważne jest przejrzyste zarządzanie projektem. Bez niespodzianek."
+
+contactForm.placeholder.email:    "Twój adres email"
+contactForm.placeholder.body:     "Treść Twojej wiadomości"
+contactForm.buttonSend:           "Wyślij"
+
+contactForm.message.OK:           "Wiadomość wysłana"
+contactForm.message.formInvalid:  "Błędy w formularzu!"
+contactForm.message.Error:        "Wystąpił błąd :(\nNie można było wysłać wiadomości"
