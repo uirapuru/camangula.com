@@ -13,16 +13,12 @@ namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
 use Symfony\Component\Form\Extension\Core\View\ChoiceView;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Intl\Util\IntlTestHelper;
 
-class DateTypeTest extends TypeTestCase
+class DateTypeTest extends LocalizedTestCase
 {
     protected function setUp()
     {
         parent::setUp();
-
-        // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
     }
@@ -56,7 +52,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'datetime',
         ));
 
-        $form->submit('2010-06-02');
+        $form->bind('2010-06-02');
 
         $this->assertDateTimeEquals(new \DateTime('2010-06-02 UTC'), $form->getData());
         $this->assertEquals('2010-06-02', $form->getViewData());
@@ -72,7 +68,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'datetime',
         ));
 
-        $form->submit('2.6.2010');
+        $form->bind('2.6.2010');
 
         $this->assertDateTimeEquals(new \DateTime('2010-06-02 UTC'), $form->getData());
         $this->assertEquals('02.06.2010', $form->getViewData());
@@ -88,7 +84,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'string',
         ));
 
-        $form->submit('2.6.2010');
+        $form->bind('2.6.2010');
 
         $this->assertEquals('2010-06-02', $form->getData());
         $this->assertEquals('02.06.2010', $form->getViewData());
@@ -104,7 +100,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'timestamp',
         ));
 
-        $form->submit('2.6.2010');
+        $form->bind('2.6.2010');
 
         $dateTime = new \DateTime('2010-06-02 UTC');
 
@@ -122,7 +118,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'array',
         ));
 
-        $form->submit('2.6.2010');
+        $form->bind('2.6.2010');
 
         $output = array(
             'day' => '2',
@@ -148,7 +144,7 @@ class DateTypeTest extends TypeTestCase
             'year' => '2010',
         );
 
-        $form->submit($text);
+        $form->bind($text);
 
         $dateTime = new \DateTime('2010-06-02 UTC');
 
@@ -170,7 +166,7 @@ class DateTypeTest extends TypeTestCase
             'year' => '2010',
         );
 
-        $form->submit($text);
+        $form->bind($text);
 
         $dateTime = new \DateTime('2010-06-02 UTC');
 
@@ -193,7 +189,7 @@ class DateTypeTest extends TypeTestCase
             'year' => '',
         );
 
-        $form->submit($text);
+        $form->bind($text);
 
         $this->assertNull($form->getData());
         $this->assertEquals($text, $form->getViewData());
@@ -209,7 +205,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'datetime',
         ));
 
-        $form->submit('06*2010*02');
+        $form->bind('06*2010*02');
 
         $this->assertDateTimeEquals(new \DateTime('2010-06-02 UTC'), $form->getData());
         $this->assertEquals('06*2010*02', $form->getViewData());
@@ -225,7 +221,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'string',
         ));
 
-        $form->submit('06*2010*02');
+        $form->bind('06*2010*02');
 
         $this->assertEquals('2010-06-02', $form->getData());
         $this->assertEquals('06*2010*02', $form->getViewData());
@@ -241,7 +237,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'timestamp',
         ));
 
-        $form->submit('06*2010*02');
+        $form->bind('06*2010*02');
 
         $dateTime = new \DateTime('2010-06-02 UTC');
 
@@ -259,7 +255,7 @@ class DateTypeTest extends TypeTestCase
             'input' => 'array',
         ));
 
-        $form->submit('06*2010*02');
+        $form->bind('06*2010*02');
 
         $output = array(
             'day' => '2',
@@ -269,29 +265,6 @@ class DateTypeTest extends TypeTestCase
 
         $this->assertEquals($output, $form->getData());
         $this->assertEquals('06*2010*02', $form->getViewData());
-    }
-
-    /**
-     * @dataProvider provideDateFormats
-     */
-    public function testDatePatternWithFormatOption($format, $pattern)
-    {
-        $form = $this->factory->create('date', null, array(
-            'format' => $format,
-        ));
-
-        $view = $form->createView();
-
-        $this->assertEquals($pattern, $view->vars['date_pattern']);
-    }
-
-    public function provideDateFormats()
-    {
-        return array(
-            array('dMy', '{{ day }}{{ month }}{{ year }}'),
-            array('d-M-yyyy', '{{ day }}-{{ month }}-{{ year }}'),
-            array('M d y', '{{ month }} {{ day }} {{ year }}'),
-        );
     }
 
     /**
@@ -412,7 +385,7 @@ class DateTypeTest extends TypeTestCase
 
         $this->assertEquals(array(
             new ChoiceView('1', '1', 'Jän'),
-            new ChoiceView('4', '4', 'Apr.')
+            new ChoiceView('4', '4', 'Apr')
         ), $view['month']->vars['choices']);
     }
 
@@ -470,7 +443,7 @@ class DateTypeTest extends TypeTestCase
             'widget' => 'single_text',
         ));
 
-        $form->submit('7.6.2010');
+        $form->bind('7.6.2010');
 
         $this->assertFalse($form->isPartiallyFilled());
     }
@@ -485,7 +458,7 @@ class DateTypeTest extends TypeTestCase
             'widget' => 'choice',
         ));
 
-        $form->submit(array(
+        $form->bind(array(
             'day' => '',
             'month' => '',
             'year' => '',
@@ -504,7 +477,7 @@ class DateTypeTest extends TypeTestCase
             'widget' => 'choice',
         ));
 
-        $form->submit(array(
+        $form->bind(array(
             'day' => '2',
             'month' => '6',
             'year' => '2010',
@@ -523,7 +496,7 @@ class DateTypeTest extends TypeTestCase
             'widget' => 'choice',
         ));
 
-        $form->submit(array(
+        $form->bind(array(
             'day' => '',
             'month' => '6',
             'year' => '2010',

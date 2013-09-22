@@ -11,16 +11,11 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
-use Symfony\Component\Intl\Util\IntlTestHelper;
-
-class NumberTypeTest extends TypeTestCase
+class NumberTypeTest extends LocalizedTestCase
 {
     protected function setUp()
     {
         parent::setUp();
-
-        // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_DE');
     }

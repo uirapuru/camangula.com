@@ -11,9 +11,9 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
-class PasswordTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
+class PasswordTypeTest extends TypeTestCase
 {
-    public function testEmptyIfNotSubmitted()
+    public function testEmptyIfNotBound()
     {
         $form = $this->factory->create('password');
         $form->setData('pAs5w0rd');
@@ -22,19 +22,19 @@ class PasswordTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
         $this->assertSame('', $view->vars['value']);
     }
 
-    public function testEmptyIfSubmitted()
+    public function testEmptyIfBound()
     {
         $form = $this->factory->create('password');
-        $form->submit('pAs5w0rd');
+        $form->bind('pAs5w0rd');
         $view = $form->createView();
 
         $this->assertSame('', $view->vars['value']);
     }
 
-    public function testNotEmptyIfSubmittedAndNotAlwaysEmpty()
+    public function testNotEmptyIfBoundAndNotAlwaysEmpty()
     {
         $form = $this->factory->create('password', null, array('always_empty' => false));
-        $form->submit('pAs5w0rd');
+        $form->bind('pAs5w0rd');
         $view = $form->createView();
 
         $this->assertSame('pAs5w0rd', $view->vars['value']);
@@ -43,7 +43,7 @@ class PasswordTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
     public function testNotTrimmed()
     {
         $form = $this->factory->create('password', null);
-        $form->submit(' pAs5w0rd ');
+        $form->bind(' pAs5w0rd ');
         $data = $form->getData();
 
         $this->assertSame(' pAs5w0rd ', $data);

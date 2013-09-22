@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
-class BinaryFileResponseTest extends ResponseTestCase
+class BinaryFileResponseTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruction()
     {
@@ -144,10 +144,5 @@ class BinaryFileResponseTest extends ResponseTestCase
             array('/var/www/var/www/files/foo.txt', '/files/=/var/www/', '/files/var/www/files/foo.txt'),
             array('/home/foo/bar.txt', '/files/=/var/www/,/baz/=/home/foo/', '/baz/bar.txt'),
         );
-    }
-
-    protected function provideResponse()
-    {
-        return new BinaryFileResponse('README.md');
     }
 }

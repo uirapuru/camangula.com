@@ -1,13 +1,13 @@
 <?php
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Silex\Provider\FormServiceProvider;
 use Symfony\Component\Validator\Constraints as Assert;
-use SilexAssetic\AsseticServiceProvider; 
+use SilexAssetic\AsseticServiceProvider;
 
-set_include_path(implode(PATH_SEPARATOR,
-                         array(
+set_include_path(implode(PATH_SEPARATOR, array(
     __DIR__ . "/../vendor",
     get_include_path()
 )));
@@ -21,13 +21,12 @@ $bootstrap->registerServices();
 
 $app = $bootstrap->getApp();
 
-$app->match('/clubs',
-          function () use ($app) {
-                    return $app['twig']->render('clubs.twig',array());
+$app->match('/groups.html', function () use ($app) {
+                    return $app['twig']->render('groups.twig', array());
                 });
 
-$app->get('/',
-          function () use ($app) {
-                    return $app['twig']->render('index.twig',array());
-                });
+$app->match('/', function () use ($app) {
+                    return $app['twig']->render('index.twig', array());
+                })
+        ->bind("homepage");
 $app->run();

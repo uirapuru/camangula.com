@@ -158,14 +158,24 @@ body {
     color: rgba(255,255,255,0.1);
     text-decoration: none;
 }
-#mainMenu .item:hover {
+#mainMenu .item:hover
+{
     background-color: rgba(0,0,255,1);
 }
-#mainMenu .item:hover a {
+#mainMenu .item:hover a,
+#mainMenu .item.active a
+{
     color: rgba(255,255,255,1);
-
 }
 
+#clubsList {
+    background-color: rgba(0,0,255,0.3);
+    min-height: 800px;
+}
+
+#clubsList ul {
+    list-style: none;
+}
 
 
 

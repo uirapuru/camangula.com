@@ -11,17 +11,52 @@
 
 namespace Symfony\Component\Locale\Stub\DateFormat;
 
-use Symfony\Component\Intl\DateFormatter\DateFormat\Hour1200Transformer as BaseHour1200Transformer;
-
 /**
- * Alias of {@link \Symfony\Component\Intl\DateFormatter\DateFormat\Hour1200Transformer}.
+ * Parser and formatter for 12 hour format (0-11)
  *
- * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link \Symfony\Component\Intl\DateFormatter\DateFormat\Hour1200Transformer}
- *             instead.
+ * @author Igor Wiedler <igor@wiedler.ch>
  */
-class Hour1200Transformer extends BaseHour1200Transformer
+class Hour1200Transformer extends HourTransformer
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function format(\DateTime $dateTime, $length)
+    {
+        $hourOfDay = $dateTime->format('g');
+        $hourOfDay = '12' == $hourOfDay ? '0' : $hourOfDay;
+
+        return $this->padLeft($hourOfDay, $length);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function normalizeHour($hour, $marker = null)
+    {
+        if ('PM' === $marker) {
+            $hour += 12;
+        }
+
+        return $hour;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getReverseMatchingRegExp($length)
+    {
+        return '\d{1,2}';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function extractDateOptions($matched, $length)
+    {
+        return array(
+            'hour' => (int) $matched,
+            'hourInstance' => $this
+        );
+    }
 }

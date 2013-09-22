@@ -16,7 +16,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
@@ -45,53 +44,28 @@ class CsrfValidationListener implements EventSubscriberInterface
      */
     private $intention;
 
-    /**
-     * The message displayed in case of an error.
-     * @var string
-     */
-    private $errorMessage;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
-     * @var null|string
-     */
-    private $translationDomain;
-
     public static function getSubscribedEvents()
     {
         return array(
-            FormEvents::PRE_SUBMIT => 'preSubmit',
+            FormEvents::PRE_BIND => 'preBind',
         );
     }
 
-    public function __construct($fieldName, CsrfProviderInterface $csrfProvider, $intention, $errorMessage, TranslatorInterface $translator = null, $translationDomain = null)
+    public function __construct($fieldName, CsrfProviderInterface $csrfProvider, $intention)
     {
         $this->fieldName = $fieldName;
         $this->csrfProvider = $csrfProvider;
         $this->intention = $intention;
-        $this->errorMessage = $errorMessage;
-        $this->translator = $translator;
-        $this->translationDomain = $translationDomain;
     }
 
-    public function preSubmit(FormEvent $event)
+    public function preBind(FormEvent $event)
     {
         $form = $event->getForm();
         $data = $event->getData();
 
         if ($form->isRoot() && $form->getConfig()->getOption('compound')) {
             if (!isset($data[$this->fieldName]) || !$this->csrfProvider->isCsrfTokenValid($this->intention, $data[$this->fieldName])) {
-                $errorMessage = $this->errorMessage;
-
-                if (null !== $this->translator) {
-                    $errorMessage = $this->translator->trans($errorMessage, array(), $this->translationDomain);
-                }
-
-                $form->addError(new FormError($errorMessage));
+                $form->addError(new FormError('The CSRF token is invalid. Please try to resubmit the form.'));
             }
 
             if (is_array($data)) {
@@ -100,16 +74,5 @@ class CsrfValidationListener implements EventSubscriberInterface
         }
 
         $event->setData($data);
-    }
-
-    /**
-     * Alias of {@link preSubmit()}.
-     *
-     * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
-     *             {@link preSubmit()} instead.
-     */
-    public function preBind(FormEvent $event)
-    {
-        $this->preSubmit($event);
     }
 }

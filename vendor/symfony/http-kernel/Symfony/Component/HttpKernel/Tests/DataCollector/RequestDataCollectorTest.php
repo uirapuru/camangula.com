@@ -50,7 +50,6 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('en',$c->getLocale());
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\HeaderBag',$c->getResponseHeaders());
-        $this->assertEquals('OK',$c->getStatusText());
         $this->assertEquals(200,$c->getStatusCode());
         $this->assertEquals('application/json',$c->getContentType());
     }
@@ -81,12 +80,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
             array(
                 'Closure',
                 function() { return 'foo'; },
-                array(
-                    'class' => __NAMESPACE__.'\{closure}',
-                    'method' => null,
-                    'file' => __FILE__,
-                    'line' => __LINE__ - 5,
-                ),
+                'Closure',
             ),
 
             array(

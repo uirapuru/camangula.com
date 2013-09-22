@@ -11,17 +11,54 @@
 
 namespace Symfony\Component\Locale\Stub\DateFormat;
 
-use Symfony\Component\Intl\DateFormatter\DateFormat\QuarterTransformer as BaseQuarterTransformer;
-
 /**
- * Alias of {@link \Symfony\Component\Intl\DateFormatter\DateFormat\QuarterTransformer}.
+ * Parser and formatter for quarter format
  *
- * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link \Symfony\Component\Intl\DateFormatter\DateFormat\QuarterTransformer}
- *             instead.
+ * @author Igor Wiedler <igor@wiedler.ch>
  */
-class QuarterTransformer extends BaseQuarterTransformer
+class QuarterTransformer extends Transformer
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function format(\DateTime $dateTime, $length)
+    {
+        $month = (int) $dateTime->format('n');
+        $quarter = (int) floor(($month - 1) / 3) + 1;
+        switch ($length) {
+            case 1:
+            case 2:
+                return $this->padLeft($quarter, $length);
+            case 3:
+                return 'Q'.$quarter;
+            default:
+                $map = array(1 => '1st quarter', 2 => '2nd quarter', 3 => '3rd quarter', 4 => '4th quarter');
+
+                return $map[$quarter];
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getReverseMatchingRegExp($length)
+    {
+        switch ($length) {
+            case 1:
+            case 2:
+                return '\d{'.$length.'}';
+            case 3:
+                return 'Q\d';
+            default:
+                return '(?:1st|2nd|3rd|4th) quarter';
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function extractDateOptions($matched, $length)
+    {
+        return array();
+    }
 }

@@ -23,7 +23,7 @@ interface FormExtensionInterface
      *
      * @return FormTypeInterface The type
      *
-     * @throws Exception\InvalidArgumentException if the given type is not supported by this extension
+     * @throws Exception\FormException if the given type is not supported by this extension
      */
     public function getType($name);
 

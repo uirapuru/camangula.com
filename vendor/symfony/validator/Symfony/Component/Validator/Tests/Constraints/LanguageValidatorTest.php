@@ -11,18 +11,17 @@
 
 namespace Symfony\Component\Validator\Tests\Constraints;
 
-use Symfony\Component\Intl\Util\IntlTestHelper;
 use Symfony\Component\Validator\Constraints\Language;
 use Symfony\Component\Validator\Constraints\LanguageValidator;
 
-class LanguageValidatorTest extends \PHPUnit_Framework_TestCase
+class LanguageValidatorTest extends LocalizedTestCase
 {
     protected $context;
     protected $validator;
 
     protected function setUp()
     {
-        IntlTestHelper::requireIntl($this);
+        parent::setUp();
 
         $this->context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
         $this->validator = new LanguageValidator();
@@ -64,6 +63,10 @@ class LanguageValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidLanguages($language)
     {
+        if (!class_exists('Symfony\Component\Locale\Locale')) {
+            $this->markTestSkipped('The "Locale" component is not available');
+        }
+
         $this->context->expects($this->never())
             ->method('addViolation');
 
@@ -84,6 +87,10 @@ class LanguageValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidLanguages($language)
     {
+        if (!class_exists('Symfony\Component\Locale\Locale')) {
+            $this->markTestSkipped('The "Locale" component is not available');
+        }
+
         $constraint = new Language(array(
             'message' => 'myMessage'
         ));

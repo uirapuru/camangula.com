@@ -11,17 +11,49 @@
 
 namespace Symfony\Component\Locale\Stub\DateFormat;
 
-use Symfony\Component\Intl\DateFormatter\DateFormat\DayOfWeekTransformer as BaseDayOfWeekTransformer;
-
 /**
- * Alias of {@link \Symfony\Component\Intl\DateFormatter\DateFormat\DayOfWeekTransformer}.
+ * Parser and formatter for day of week format
  *
- * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link \Symfony\Component\Intl\DateFormatter\DateFormat\DayOfWeekTransformer}
- *             instead.
+ * @author Igor Wiedler <igor@wiedler.ch>
  */
-class DayOfWeekTransformer extends BaseDayOfWeekTransformer
+class DayOfWeekTransformer extends Transformer
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function format(\DateTime $dateTime, $length)
+    {
+        $dayOfWeek = $dateTime->format('l');
+        switch ($length) {
+            case 4:
+                return $dayOfWeek;
+            case 5:
+                return $dayOfWeek[0];
+            default:
+                return substr($dayOfWeek, 0, 3);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getReverseMatchingRegExp($length)
+    {
+        switch ($length) {
+            case 4:
+                return 'Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday';
+            case 5:
+                return '[MTWFS]';
+            default:
+                return 'Mon|Tue|Wed|Thu|Fri|Sat|Sun';
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function extractDateOptions($matched, $length)
+    {
+        return array();
+    }
 }

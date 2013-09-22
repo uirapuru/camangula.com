@@ -12,32 +12,22 @@
 namespace Symfony\Component\Form\Util;
 
 /**
- * Iterator that traverses an array of forms.
+ * Iterator that traverses fields of a field group
  *
- * You can wrap the iterator into a {@link \RecursiveIterator} in order to
- * enter any child form that inherits its parent's data and iterate the children
- * of that form as well.
+ * If the iterator encounters a virtual field group, it enters the field
+ * group and traverses its children as well.
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link InheritDataAwareIterator} instead.
  */
-class VirtualFormAwareIterator extends \IteratorIterator implements \RecursiveIterator
+class VirtualFormAwareIterator extends \ArrayIterator implements \RecursiveIterator
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getChildren()
     {
-        return new static($this->current());
+        return new self($this->current()->all());
     }
 
-    /**
-     *{@inheritdoc}
-     */
     public function hasChildren()
     {
-        return (bool) $this->current()->getConfig()->getInheritData();
+        return $this->current()->getConfig()->getVirtual();
     }
 }

@@ -51,7 +51,6 @@ class ValidatorExtension extends AbstractExtension
         return array(
             new Type\FormTypeValidatorExtension($this->validator),
             new Type\RepeatedTypeValidatorExtension(),
-            new Type\SubmitTypeValidatorExtension(),
         );
     }
 }

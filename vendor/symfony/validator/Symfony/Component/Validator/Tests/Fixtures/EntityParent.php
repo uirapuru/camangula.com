@@ -17,15 +17,9 @@ class EntityParent
 {
     protected $firstName;
     private $internal;
-    private $data = 'Data';
 
     /**
      * @NotNull
      */
     protected $other;
-
-    public function getData()
-    {
-        return 'Data';
-    }
 }

@@ -23,6 +23,7 @@
         "symfony/locale": "2.*",
         "symfony/twig-bridge": "2.*",
         "symfony/yaml": "2.*",
+        "symfony/debug": "2.*",
         "swiftmailer/swiftmailer": "5.*",
         "facebook/php-sdk": "*"
 

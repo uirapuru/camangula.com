@@ -16,6 +16,6 @@ namespace Symfony\Component\Form\Exception;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class TransformationFailedException extends RuntimeException
+class TransformationFailedException extends \RuntimeException implements ExceptionInterface
 {
 }

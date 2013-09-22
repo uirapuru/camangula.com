@@ -11,7 +11,7 @@
 
 namespace Symfony\Component\Form;
 
-use Symfony\Component\Form\Exception\InvalidArgumentException;
+use Symfony\Component\Form\Exception\Exception;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,7 +46,7 @@ class ResolvedFormType implements ResolvedFormTypeInterface
     public function __construct(FormTypeInterface $innerType, array $typeExtensions = array(), ResolvedFormTypeInterface $parent = null)
     {
         if (!preg_match('/^[a-z0-9_]*$/i', $innerType->getName())) {
-            throw new InvalidArgumentException(sprintf(
+            throw new Exception(sprintf(
                 'The "%s" form type name ("%s") is not valid. Names must only contain letters, numbers, and "_".',
                 get_class($innerType),
                 $innerType->getName()
@@ -57,6 +57,14 @@ class ResolvedFormType implements ResolvedFormTypeInterface
             if (!$extension instanceof FormTypeExtensionInterface) {
                 throw new UnexpectedTypeException($extension, 'Symfony\Component\Form\FormTypeExtensionInterface');
             }
+        }
+
+        // BC
+        if ($innerType instanceof AbstractType) {
+            /* @var AbstractType $innerType */
+            set_error_handler(array('Symfony\Component\Form\Test\DeprecationErrorHandler', 'handleBC'));
+            $innerType->setExtensions($typeExtensions);
+            restore_error_handler();
         }
 
         $this->innerType = $innerType;
@@ -104,15 +112,16 @@ class ResolvedFormType implements ResolvedFormTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function createBuilder(FormFactoryInterface $factory, $name, array $options = array())
+    public function createBuilder(FormFactoryInterface $factory, $name, array $options = array(), FormBuilderInterface $parent = null)
     {
         $options = $this->getOptionsResolver()->resolve($options);
 
         // Should be decoupled from the specific option at some point
         $dataClass = isset($options['data_class']) ? $options['data_class'] : null;
 
-        $builder = $this->newBuilder($name, $dataClass, $factory, $options);
+        $builder = new FormBuilder($name, $dataClass, new EventDispatcher(), $factory, $options);
         $builder->setType($this);
+        $builder->setParent($parent);
 
         $this->buildForm($builder, $options);
 
@@ -126,7 +135,7 @@ class ResolvedFormType implements ResolvedFormTypeInterface
     {
         $options = $form->getConfig()->getOptions();
 
-        $view = $this->newView($parent);
+        $view = new FormView($parent);
 
         $this->buildView($view, $form, $options);
 
@@ -241,44 +250,5 @@ class ResolvedFormType implements ResolvedFormTypeInterface
         }
 
         return $this->optionsResolver;
-    }
-
-    /**
-     * Creates a new builder instance.
-     *
-     * Override this method if you want to customize the builder class.
-     *
-     * @param string               $name      The name of the builder.
-     * @param string               $dataClass The data class.
-     * @param FormFactoryInterface $factory   The current form factory.
-     * @param array                $options   The builder options.
-     *
-     * @return FormBuilderInterface The new builder instance.
-     */
-    protected function newBuilder($name, $dataClass, FormFactoryInterface $factory, array $options)
-    {
-        if ($this->innerType instanceof ButtonTypeInterface) {
-            return new ButtonBuilder($name, $options);
-        }
-
-        if ($this->innerType instanceof SubmitButtonTypeInterface) {
-            return new SubmitButtonBuilder($name, $options);
-        }
-
-        return new FormBuilder($name, $dataClass, new EventDispatcher(), $factory, $options);
-    }
-
-    /**
-     * Creates a new view instance.
-     *
-     * Override this method if you want to customize the view class.
-     *
-     * @param FormView|null $parent The parent view, if available.
-     *
-     * @return FormView A new view instance.
-     */
-    protected function newView(FormView $parent = null)
-    {
-        return new FormView($parent);
     }
 }

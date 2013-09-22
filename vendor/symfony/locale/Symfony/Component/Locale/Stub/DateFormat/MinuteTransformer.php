@@ -11,17 +11,38 @@
 
 namespace Symfony\Component\Locale\Stub\DateFormat;
 
-use Symfony\Component\Intl\DateFormatter\DateFormat\MinuteTransformer as BaseMinuteTransformer;
-
 /**
- * Alias of {@link \Symfony\Component\Intl\DateFormatter\DateFormat\MinuteTransformer}.
+ * Parser and formatter for minute format
  *
- * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link \Symfony\Component\Intl\DateFormatter\DateFormat\MinuteTransformer}
- *             instead.
+ * @author Igor Wiedler <igor@wiedler.ch>
  */
-class MinuteTransformer extends BaseMinuteTransformer
+class MinuteTransformer extends Transformer
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function format(\DateTime $dateTime, $length)
+    {
+        $minuteOfHour = (int) $dateTime->format('i');
+
+        return $this->padLeft($minuteOfHour, $length);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getReverseMatchingRegExp($length)
+    {
+        return 1 === $length ? '\d{1,2}' : '\d{'.$length.'}';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function extractDateOptions($matched, $length)
+    {
+        return array(
+            'minute' => (int) $matched,
+        );
+    }
 }

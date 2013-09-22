@@ -13,6 +13,7 @@ namespace Symfony\Component\Form\Extension\Core\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
  * Transforms between a number type and a localized number with grouping
@@ -59,8 +60,8 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
      *
      * @return string Localized value.
      *
-     * @throws TransformationFailedException If the given value is not numeric
-     *                                       or if the value can not be transformed.
+     * @throws UnexpectedTypeException if the given value is not numeric
+     * @throws TransformationFailedException if the value can not be transformed
      */
     public function transform($value)
     {
@@ -69,7 +70,7 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
         }
 
         if (!is_numeric($value)) {
-            throw new TransformationFailedException('Expected a numeric.');
+            throw new UnexpectedTypeException($value, 'numeric');
         }
 
         $formatter = $this->getNumberFormatter();
@@ -78,9 +79,6 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
         if (intl_is_failure($formatter->getErrorCode())) {
             throw new TransformationFailedException($formatter->getErrorMessage());
         }
-
-        // Convert fixed spaces to normal ones
-        $value = str_replace("\xc2\xa0", ' ', $value);
 
         return $value;
     }
@@ -92,13 +90,13 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
      *
      * @return integer|float The numeric value
      *
-     * @throws TransformationFailedException If the given value is not a string
-     *                                       or if the value can not be transformed.
+     * @throws UnexpectedTypeException if the given value is not a string
+     * @throws TransformationFailedException if the value can not be transformed
      */
     public function reverseTransform($value)
     {
         if (!is_string($value)) {
-            throw new TransformationFailedException('Expected a string.');
+            throw new UnexpectedTypeException($value, 'string');
         }
 
         if ('' === $value) {
@@ -128,35 +126,23 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
             throw new TransformationFailedException($formatter->getErrorMessage());
         }
 
-        if ($result >= PHP_INT_MAX || $result <= -PHP_INT_MAX) {
+        if ($result >= INF || $result <= -INF) {
             throw new TransformationFailedException('I don\'t have a clear idea what infinity looks like');
         }
 
-        if (function_exists('mb_detect_encoding') && false !== $encoding = mb_detect_encoding($value)) {
-            $strlen = function ($string) use ($encoding) {
-                return mb_strlen($string, $encoding);
-            };
-            $substr = function ($string, $offset, $length) use ($encoding) {
-                return mb_substr($string, $offset, $length, $encoding);
-            };
-        } else {
-            $strlen = 'strlen';
-            $substr = 'substr';
-        }
-
-        $length = $strlen($value);
-
         // After parsing, position holds the index of the character where the
         // parsing stopped
-        if ($position < $length) {
+        if ($position < strlen($value)) {
             // Check if there are unrecognized characters at the end of the
-            // number (excluding whitespace characters)
-            $remainder = trim($substr($value, $position, $length), " \t\n\r\0\x0b\xc2\xa0");
+            // number
+            $remainder = substr($value, $position);
 
-            if ('' !== $remainder) {
+            // Remove all whitespace characters
+            if ('' !== preg_replace('/[\s\xc2\xa0]*/', '', $remainder)) {
                 throw new TransformationFailedException(
-                    sprintf('The number contains unrecognized characters: "%s"', $remainder)
-                );
+                    sprintf('The number contains unrecognized characters: "%s"',
+                        $remainder
+                    ));
             }
         }
 

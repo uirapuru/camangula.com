@@ -11,7 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
-class FileTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
+class FileTypeTest extends TypeTestCase
 {
     // https://github.com/symfony/symfony/pull/5028
     public function testSetData()
@@ -24,22 +24,22 @@ class FileTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
         $this->assertSame($data, $form->getData());
     }
 
-    public function testSubmit()
+    public function testBind()
     {
         $form = $this->factory->createBuilder('file')->getForm();
         $data = $this->createUploadedFileMock('abcdef', 'original.jpg', true);
 
-        $form->submit($data);
+        $form->bind($data);
 
         $this->assertSame($data, $form->getData());
     }
 
     // https://github.com/symfony/symfony/issues/6134
-    public function testSubmitEmpty()
+    public function testBindEmpty()
     {
         $form = $this->factory->createBuilder('file')->getForm();
 
-        $form->submit(null);
+        $form->bind(null);
 
         $this->assertNull($form->getData());
     }
@@ -47,7 +47,7 @@ class FileTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
     public function testDontPassValueToView()
     {
         $form = $this->factory->create('file');
-        $form->submit(array(
+        $form->bind(array(
             'file' => $this->createUploadedFileMock('abcdef', 'original.jpg', true),
         ));
         $view = $form->createView();

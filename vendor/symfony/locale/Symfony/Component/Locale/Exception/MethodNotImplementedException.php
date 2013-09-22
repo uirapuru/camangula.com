@@ -11,17 +11,18 @@
 
 namespace Symfony\Component\Locale\Exception;
 
-use Symfony\Component\Intl\Exception\MethodNotImplementedException as BaseMethodNotImplementedException;
-
 /**
- * Alias of {@link \Symfony\Component\Intl\Exception\MethodNotImplementedException}.
- *
- * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link \Symfony\Component\Intl\Exception\MethodNotImplementedException}
- *             instead.
+ * @author Eriksen Costa <eriksen.costa@infranology.com.br>
  */
-class MethodNotImplementedException extends BaseMethodNotImplementedException
+class MethodNotImplementedException extends NotImplementedException
 {
+    /**
+     * Constructor
+     *
+     * @param string $methodName The name of the method
+     */
+    public function __construct($methodName)
+    {
+        parent::__construct(sprintf('The %s() is not implemented.', $methodName));
+    }
 }

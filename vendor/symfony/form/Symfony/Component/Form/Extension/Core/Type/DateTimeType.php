@@ -207,10 +207,23 @@ class DateTimeType extends AbstractType
             return $options['widget'];
         };
 
+        // BC until Symfony 2.3
+        $modelTimezone = function (Options $options) {
+            return $options['data_timezone'];
+        };
+
+        // BC until Symfony 2.3
+        $viewTimezone = function (Options $options) {
+            return $options['user_timezone'];
+        };
+
         $resolver->setDefaults(array(
             'input'          => 'datetime',
-            'model_timezone' => null,
-            'view_timezone'  => null,
+            'model_timezone' => $modelTimezone,
+            'view_timezone'  => $viewTimezone,
+            // Deprecated timezone options
+            'data_timezone'  => null,
+            'user_timezone'  => null,
             'format'         => self::HTML5_FORMAT,
             'date_format'    => null,
             'widget'         => null,
@@ -269,6 +282,14 @@ class DateTimeType extends AbstractType
                 'choice',
             ),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return 'field';
     }
 
     /**

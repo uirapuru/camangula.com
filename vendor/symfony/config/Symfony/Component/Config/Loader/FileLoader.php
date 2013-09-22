@@ -67,19 +67,11 @@ abstract class FileLoader extends Loader
             $loader = $this->resolve($resource, $type);
 
             if ($loader instanceof FileLoader && null !== $this->currentDir) {
-                $resource = $this->locator->locate($resource, $this->currentDir, false);
+                $resource = $this->locator->locate($resource, $this->currentDir);
             }
 
-            $resources = is_array($resource) ? $resource : array($resource);
-            for ($i = 0; $i < $resourcesCount = count($resources); $i++ ) {
-                if (isset(self::$loading[$resources[$i]])) {
-                    if ($i == $resourcesCount-1) {
-                        throw new FileLoaderImportCircularReferenceException(array_keys(self::$loading));
-                    }
-                } else {
-                    $resource = $resources[$i];
-                    break;
-                }
+            if (isset(self::$loading[$resource])) {
+                throw new FileLoaderImportCircularReferenceException(array_keys(self::$loading));
             }
             self::$loading[$resource] = true;
 

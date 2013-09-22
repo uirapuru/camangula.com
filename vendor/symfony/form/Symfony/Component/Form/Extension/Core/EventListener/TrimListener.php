@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class TrimListener implements EventSubscriberInterface
 {
-    public function preSubmit(FormEvent $event)
+    public function preBind(FormEvent $event)
     {
         $data = $event->getData();
 
@@ -37,19 +37,8 @@ class TrimListener implements EventSubscriberInterface
         }
     }
 
-    /**
-     * Alias of {@link preSubmit()}.
-     *
-     * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
-     *             {@link preSubmit()} instead.
-     */
-    public function preBind(FormEvent $event)
-    {
-        $this->preSubmit($event);
-    }
-
     public static function getSubscribedEvents()
     {
-        return array(FormEvents::PRE_SUBMIT => 'preSubmit');
+        return array(FormEvents::PRE_BIND => 'preBind');
     }
 }

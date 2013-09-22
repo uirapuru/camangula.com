@@ -11,17 +11,22 @@
 
 namespace Symfony\Component\Locale\Exception;
 
-use Symfony\Component\Intl\Exception\MethodArgumentNotImplementedException as BaseMethodArgumentNotImplementedException;
+use Symfony\Component\Locale\Exception\NotImplementedException;
 
 /**
- * Alias of {@link \Symfony\Component\Intl\Exception\MethodArgumentNotImplementedException}.
- *
- * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link \Symfony\Component\Intl\Exception\MethodArgumentNotImplementedException}
- *             instead.
+ * @author Eriksen Costa <eriksen.costa@infranology.com.br>
  */
-class MethodArgumentNotImplementedException extends BaseMethodArgumentNotImplementedException
+class MethodArgumentNotImplementedException extends NotImplementedException
 {
+    /**
+     * Constructor
+     *
+     * @param string $methodName The method name that raised the exception
+     * @param string $argName    The argument name that is not implemented
+     */
+    public function __construct($methodName, $argName)
+    {
+        $message = sprintf('The %s() method\'s argument $%s behavior is not implemented.', $methodName, $argName);
+        parent::__construct($message);
+    }
 }

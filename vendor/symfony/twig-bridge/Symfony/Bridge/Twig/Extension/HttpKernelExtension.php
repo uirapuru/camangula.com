@@ -36,17 +36,17 @@ class HttpKernelExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('render',array($this, 'renderFragment'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('render_*', array($this, 'renderFragmentStrategy'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('controller', array($this, 'controller')),
+            'render'     => new \Twig_Function_Method($this, 'renderFragment', array('is_safe' => array('html'))),
+            'render_*'   => new \Twig_Function_Method($this, 'renderFragmentStrategy', array('is_safe' => array('html'))),
+            'controller' => new \Twig_Function_Method($this, 'controller'),
         );
     }
 
     /**
      * Renders a fragment.
      *
-     * @param string|ControllerReference $uri      A URI as a string or a ControllerReference instance
-     * @param array                      $options  An array of options
+     * @param string $uri     A URI
+     * @param array  $options An array of options
      *
      * @return string The fragment content
      *
@@ -54,6 +54,8 @@ class HttpKernelExtension extends \Twig_Extension
      */
     public function renderFragment($uri, $options = array())
     {
+        $options = $this->handler->fixOptions($options);
+
         $strategy = isset($options['strategy']) ? $options['strategy'] : 'inline';
         unset($options['strategy']);
 
@@ -63,9 +65,9 @@ class HttpKernelExtension extends \Twig_Extension
     /**
      * Renders a fragment.
      *
-     * @param string                     $strategy A strategy name
-     * @param string|ControllerReference $uri      A URI as a string or a ControllerReference instance
-     * @param array                      $options  An array of options
+     * @param string $strategy A strategy name
+     * @param string $uri      A URI
+     * @param array  $options  An array of options
      *
      * @return string The fragment content
      *

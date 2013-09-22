@@ -16,9 +16,6 @@
  */
 class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderInterface
 {
-    /** Identifier of the main namespace. */
-    const MAIN_NAMESPACE = '__main__';
-
     protected $paths;
     protected $cache;
 
@@ -27,11 +24,9 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
      *
      * @param string|array $paths A path or an array of paths where to look for templates
      */
-    public function __construct($paths = array())
+    public function __construct($paths)
     {
-        if ($paths) {
-            $this->setPaths($paths);
-        }
+        $this->setPaths($paths);
     }
 
     /**
@@ -41,7 +36,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
      *
      * @return array The array of paths where to look for templates
      */
-    public function getPaths($namespace = self::MAIN_NAMESPACE)
+    public function getPaths($namespace = '__main__')
     {
         return isset($this->paths[$namespace]) ? $this->paths[$namespace] : array();
     }
@@ -49,7 +44,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     /**
      * Returns the path namespaces.
      *
-     * The main namespace is always defined.
+     * The "__main__" namespace is always defined.
      *
      * @return array The array of defined namespaces
      */
@@ -64,7 +59,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
      * @param string|array $paths     A path or an array of paths where to look for templates
      * @param string       $namespace A path namespace
      */
-    public function setPaths($paths, $namespace = self::MAIN_NAMESPACE)
+    public function setPaths($paths, $namespace = '__main__')
     {
         if (!is_array($paths)) {
             $paths = array($paths);
@@ -84,7 +79,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
      *
      * @throws Twig_Error_Loader
      */
-    public function addPath($path, $namespace = self::MAIN_NAMESPACE)
+    public function addPath($path, $namespace = '__main__')
     {
         // invalidate the cache
         $this->cache = array();
@@ -104,7 +99,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
      *
      * @throws Twig_Error_Loader
      */
-    public function prependPath($path, $namespace = self::MAIN_NAMESPACE)
+    public function prependPath($path, $namespace = '__main__')
     {
         // invalidate the cache
         $this->cache = array();
@@ -178,7 +173,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
 
         $this->validateName($name);
 
-        $namespace = self::MAIN_NAMESPACE;
+        $namespace = '__main__';
         if (isset($name[0]) && '@' == $name[0]) {
             if (false === $pos = strpos($name, '/')) {
                 throw new Twig_Error_Loader(sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name));

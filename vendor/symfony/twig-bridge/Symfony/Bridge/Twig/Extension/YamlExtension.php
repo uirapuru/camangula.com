@@ -26,8 +26,8 @@ class YamlExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('yaml_encode', array($this, 'encode')),
-            new \Twig_SimpleFilter('yaml_dump', array($this, 'dump')),
+            'yaml_encode' => new \Twig_Filter_Method($this, 'encode'),
+            'yaml_dump'   => new \Twig_Filter_Method($this, 'dump'),
         );
     }
 

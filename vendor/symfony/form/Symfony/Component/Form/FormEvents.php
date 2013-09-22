@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Symfony package.
  *
@@ -15,33 +16,33 @@ namespace Symfony\Component\Form;
  */
 final class FormEvents
 {
-    const PRE_SUBMIT = 'form.pre_bind';
+    const PRE_BIND = 'form.pre_bind';
 
-    const SUBMIT = 'form.bind';
+    const BIND = 'form.bind';
 
-    const POST_SUBMIT = 'form.post_bind';
+    const POST_BIND = 'form.post_bind';
 
     const PRE_SET_DATA = 'form.pre_set_data';
 
     const POST_SET_DATA = 'form.post_set_data';
 
     /**
-     * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
-     *             {@link PRE_SUBMIT} instead.
+     * @deprecated Deprecated since version 2.1, to be removed in 2.3.
+     *             Use {@link PRE_BIND} instead.
      */
-    const PRE_BIND = 'form.pre_bind';
+    const BIND_CLIENT_DATA = 'form.bind_client_data';
 
     /**
-     * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
-     *             {@link SUBMIT} instead.
+     * @deprecated Deprecated since version 2.1, to be removed in 2.3.
+     *             Use {@link BIND} instead.
      */
-    const BIND = 'form.bind';
+    const BIND_NORM_DATA = 'form.bind_norm_data';
 
     /**
-     * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
-     *             {@link POST_SUBMIT} instead.
+     * @deprecated Deprecated since version 2.1, to be removed in 2.3.
+     *             Use {@link PRE_SET_DATA} instead.
      */
-    const POST_BIND = 'form.post_bind';
+    const SET_DATA = 'form.set_data';
 
     private function __construct()
     {

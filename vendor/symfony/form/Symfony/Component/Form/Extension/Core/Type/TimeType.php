@@ -173,6 +173,16 @@ class TimeType extends AbstractType
             );
         };
 
+        // BC until Symfony 2.3
+        $modelTimezone = function (Options $options) {
+            return $options['data_timezone'];
+        };
+
+        // BC until Symfony 2.3
+        $viewTimezone = function (Options $options) {
+            return $options['user_timezone'];
+        };
+
         $resolver->setDefaults(array(
             'hours'          => range(0, 23),
             'minutes'        => range(0, 59),
@@ -181,8 +191,11 @@ class TimeType extends AbstractType
             'input'          => 'datetime',
             'with_minutes'   => true,
             'with_seconds'   => false,
-            'model_timezone' => null,
-            'view_timezone'  => null,
+            'model_timezone' => $modelTimezone,
+            'view_timezone'  => $viewTimezone,
+            // Deprecated timezone options
+            'data_timezone'  => null,
+            'user_timezone'  => null,
             'empty_value'    => $emptyValue,
             // Don't modify \DateTime classes by reference, we treat
             // them like immutable value objects
@@ -213,6 +226,14 @@ class TimeType extends AbstractType
                 'choice',
             ),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return 'field';
     }
 
     /**

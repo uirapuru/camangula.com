@@ -1,7 +1,5 @@
 <?php
 
-require __DIR__ . '/../vendor/facebook/php-sdk/src/facebook.php';
-
 class Bootstrap {
 
     private $app;
@@ -36,6 +34,10 @@ class Bootstrap {
         ));
 
         $this->app->register(new Silex\Provider\SessionServiceProvider());
+
+        $this->app->register(
+                new Silex\Provider\UrlGeneratorServiceProvider()
+        );
     }
 
 }

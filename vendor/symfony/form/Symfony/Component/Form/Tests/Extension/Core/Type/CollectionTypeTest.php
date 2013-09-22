@@ -13,7 +13,7 @@ namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
 use Symfony\Component\Form\Form;
 
-class CollectionTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
+class CollectionTypeTest extends TypeTestCase
 {
     public function testContainsNoChildByDefault()
     {
@@ -59,13 +59,13 @@ class CollectionTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
         $form->setData(new \stdClass());
     }
 
-    public function testNotResizedIfSubmittedWithMissingData()
+    public function testNotResizedIfBoundWithMissingData()
     {
         $form = $this->factory->create('collection', null, array(
             'type' => 'text',
         ));
         $form->setData(array('foo@foo.com', 'bar@bar.com'));
-        $form->submit(array('foo@bar.com'));
+        $form->bind(array('foo@bar.com'));
 
         $this->assertTrue($form->has('0'));
         $this->assertTrue($form->has('1'));
@@ -73,14 +73,14 @@ class CollectionTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
         $this->assertEquals('', $form[1]->getData());
     }
 
-    public function testResizedDownIfSubmittedWithMissingDataAndAllowDelete()
+    public function testResizedDownIfBoundWithMissingDataAndAllowDelete()
     {
         $form = $this->factory->create('collection', null, array(
             'type' => 'text',
             'allow_delete' => true,
         ));
         $form->setData(array('foo@foo.com', 'bar@bar.com'));
-        $form->submit(array('foo@foo.com'));
+        $form->bind(array('foo@foo.com'));
 
         $this->assertTrue($form->has('0'));
         $this->assertFalse($form->has('1'));
@@ -88,27 +88,27 @@ class CollectionTypeTest extends \Symfony\Component\Form\Test\TypeTestCase
         $this->assertEquals(array('foo@foo.com'), $form->getData());
     }
 
-    public function testNotResizedIfSubmittedWithExtraData()
+    public function testNotResizedIfBoundWithExtraData()
     {
         $form = $this->factory->create('collection', null, array(
             'type' => 'text',
         ));
         $form->setData(array('foo@bar.com'));
-        $form->submit(array('foo@foo.com', 'bar@bar.com'));
+        $form->bind(array('foo@foo.com', 'bar@bar.com'));
 
         $this->assertTrue($form->has('0'));
         $this->assertFalse($form->has('1'));
         $this->assertEquals('foo@foo.com', $form[0]->getData());
     }
 
-    public function testResizedUpIfSubmittedWithExtraDataAndAllowAdd()
+    public function testResizedUpIfBoundWithExtraDataAndAllowAdd()
     {
         $form = $this->factory->create('collection', null, array(
             'type' => 'text',
             'allow_add' => true,
         ));
         $form->setData(array('foo@bar.com'));
-        $form->submit(array('foo@bar.com', 'bar@bar.com'));
+        $form->bind(array('foo@bar.com', 'bar@bar.com'));
 
         $this->assertTrue($form->has('0'));
         $this->assertTrue($form->has('1'));

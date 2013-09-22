@@ -75,19 +75,9 @@ class TwigEngine implements EngineInterface, StreamingEngineInterface
      */
     public function exists($name)
     {
-        if ($name instanceof \Twig_Template) {
-            return true;
-        }
-
-        $loader = $this->environment->getLoader();
-
-        if ($loader instanceof \Twig_ExistsLoaderInterface) {
-            return $loader->exists($name);
-        }
-
         try {
-            $loader->getSource($name);
-        } catch (\Twig_Error_Loader $e) {
+            $this->load($name);
+        } catch (\InvalidArgumentException $e) {
             return false;
         }
 

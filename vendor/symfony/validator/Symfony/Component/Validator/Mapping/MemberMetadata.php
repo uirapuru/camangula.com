@@ -26,7 +26,7 @@ abstract class MemberMetadata extends ElementMetadata implements PropertyMetadat
     public $cascaded = false;
     public $collectionCascaded = false;
     public $collectionCascadedDeeply = false;
-    private $reflMember = array();
+    private $reflMember;
 
     /**
      * Constructor.
@@ -86,9 +86,7 @@ abstract class MemberMetadata extends ElementMetadata implements PropertyMetadat
             'class',
             'name',
             'property',
-            'cascaded',
-            'collectionCascaded',
-            'collectionCascadedDeeply',
+            'cascaded', // TESTME
         ));
     }
 
@@ -125,37 +123,31 @@ abstract class MemberMetadata extends ElementMetadata implements PropertyMetadat
     /**
      * Returns whether this member is public
      *
-     * @param object|string $objectOrClassName The object or the class name
-     *
      * @return Boolean
      */
-    public function isPublic($objectOrClassName)
+    public function isPublic()
     {
-        return $this->getReflectionMember($objectOrClassName)->isPublic();
+        return $this->getReflectionMember()->isPublic();
     }
 
     /**
      * Returns whether this member is protected
      *
-     * @param object|string $objectOrClassName The object or the class name
-     *
      * @return Boolean
      */
-    public function isProtected($objectOrClassName)
+    public function isProtected()
     {
-        return $this->getReflectionMember($objectOrClassName)->isProtected();
+        return $this->getReflectionMember()->isProtected();
     }
 
     /**
      * Returns whether this member is private
      *
-     * @param object|string $objectOrClassName The object or the class name
-     *
      * @return Boolean
      */
-    public function isPrivate($objectOrClassName)
+    public function isPrivate()
     {
-        return $this->getReflectionMember($objectOrClassName)->isPrivate();
+        return $this->getReflectionMember()->isPrivate();
     }
 
     /**
@@ -191,28 +183,40 @@ abstract class MemberMetadata extends ElementMetadata implements PropertyMetadat
     }
 
     /**
-     * Returns the Reflection instance of the member
+     * Returns the value of this property in the given object
      *
-     * @param object|string $objectOrClassName The object or the class name
+     * @param object $object The object
+     *
+     * @return mixed The property value
+     *
+     * @deprecated Deprecated since version 2.2, to be removed in 2.3. Use the
+     *             method {@link getPropertyValue} instead.
+     */
+    public function getValue($object)
+    {
+        trigger_error('getValue() is deprecated since version 2.2 and will be removed in 2.3. Use getPropertyValue() instead.', E_USER_DEPRECATED);
+
+        return $this->getPropertyValue($object);
+    }
+
+    /**
+     * Returns the Reflection instance of the member
      *
      * @return object
      */
-    public function getReflectionMember($objectOrClassName)
+    public function getReflectionMember()
     {
-        $className = is_string($objectOrClassName) ? $objectOrClassName : get_class($objectOrClassName);
-        if (!isset($this->reflMember[$className])) {
-            $this->reflMember[$className] = $this->newReflectionMember($objectOrClassName);
+        if (!$this->reflMember) {
+            $this->reflMember = $this->newReflectionMember();
         }
 
-        return $this->reflMember[$className];
+        return $this->reflMember;
     }
 
     /**
      * Creates a new Reflection instance for the member
      *
-     * @param object|string $objectOrClassName The object or the class name
-     *
-     * @return mixed Reflection class
+     * @return object
      */
-    abstract protected function newReflectionMember($objectOrClassName);
+    abstract protected function newReflectionMember();
 }

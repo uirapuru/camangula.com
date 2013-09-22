@@ -12,7 +12,6 @@
 namespace Symfony\Component\Form\Extension\Core\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Intl\Intl;
 use Symfony\Component\Locale\Locale;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -24,7 +23,7 @@ class LocaleType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'choices' => Intl::getLocaleBundle()->getLocaleNames(),
+            'choices' => Locale::getDisplayLocales(\Locale::getDefault()),
         ));
     }
 

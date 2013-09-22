@@ -11,17 +11,22 @@
 
 namespace Symfony\Component\Locale\Exception;
 
-use Symfony\Component\Intl\Exception\NotImplementedException as BaseNotImplementedException;
-
 /**
- * Alias of {@link \Symfony\Component\Intl\Exception\NotImplementedException}.
+ * Base exception class for not implemented behaviors of the intl extension in the Locale component.
  *
- * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link \Symfony\Component\Intl\Exception\NotImplementedException}
- *             instead.
+ * @author Eriksen Costa <eriksen.costa@infranology.com.br>
  */
-class NotImplementedException extends BaseNotImplementedException
+class NotImplementedException extends \RuntimeException
 {
+    const INTL_INSTALL_MESSAGE = 'Please install the \'intl\' extension for full localization capabilities.';
+
+    /**
+     * Constructor
+     *
+     * @param string $message The exception message. A note to install the intl extension is appended to this string
+     */
+    public function __construct($message)
+    {
+        parent::__construct($message.' '.self::INTL_INSTALL_MESSAGE);
+    }
 }

@@ -28,14 +28,10 @@ class TranslationExtension extends \Twig_Extension
     private $translator;
     private $translationNodeVisitor;
 
-    public function __construct(TranslatorInterface $translator, \Twig_NodeVisitorInterface $translationNodeVisitor = null)
+    public function __construct(TranslatorInterface $translator)
     {
-        if (!$translationNodeVisitor) {
-            $translationNodeVisitor = new TranslationNodeVisitor();
-        }
-
         $this->translator = $translator;
-        $this->translationNodeVisitor = $translationNodeVisitor;
+        $this->translationNodeVisitor = new TranslationNodeVisitor();
     }
 
     public function getTranslator()
@@ -49,8 +45,8 @@ class TranslationExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('trans', array($this, 'trans')),
-            new \Twig_SimpleFilter('transchoice', array($this, 'transchoice')),
+            'trans' => new \Twig_Filter_Method($this, 'trans'),
+            'transchoice' => new \Twig_Filter_Method($this, 'transchoice'),
         );
     }
 

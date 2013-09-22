@@ -11,17 +11,20 @@
 
 namespace Symfony\Component\Locale\Stub\DateFormat;
 
-use Symfony\Component\Intl\DateFormatter\DateFormat\HourTransformer as BaseHourTransformer;
-
 /**
- * Alias of {@link \Symfony\Component\Intl\DateFormatter\DateFormat\HourTransformer}.
+ * Base class for hour transformers
  *
- * @author Bernhard Schussek <bschussek@gmail.com>
- *
- * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
- *             {@link \Symfony\Component\Intl\DateFormatter\DateFormat\HourTransformer}
- *             instead.
+ * @author Eriksen Costa <eriksen.costa@infranology.com.br>
  */
-abstract class HourTransformer extends BaseHourTransformer
+abstract class HourTransformer extends Transformer
 {
+    /**
+     * Returns a normalized hour value suitable for the hour transformer type
+     *
+     * @param int    $hour   The hour value
+     * @param string $marker An optional AM/PM marker
+     *
+     * @return int              The normalized hour value
+     */
+    abstract public function normalizeHour($hour, $marker = null);
 }

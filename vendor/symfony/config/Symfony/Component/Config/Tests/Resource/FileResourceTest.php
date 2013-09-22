@@ -30,16 +30,17 @@ class FileResourceTest extends \PHPUnit_Framework_TestCase
         unlink($this->file);
     }
 
+    /**
+     * @covers Symfony\Component\Config\Resource\FileResource::getResource
+     */
     public function testGetResource()
     {
-        $this->assertSame(realpath($this->file), $this->resource->getResource(), '->getResource() returns the path to the resource');
+        $this->assertEquals(realpath($this->file), $this->resource->getResource(), '->getResource() returns the path to the resource');
     }
 
-    public function testToString()
-    {
-        $this->assertSame(realpath($this->file), (string) $this->resource);
-    }
-
+    /**
+     * @covers Symfony\Component\Config\Resource\FileResource::isFresh
+     */
     public function testIsFresh()
     {
         $this->assertTrue($this->resource->isFresh(time() + 10), '->isFresh() returns true if the resource has not changed');
@@ -47,12 +48,5 @@ class FileResourceTest extends \PHPUnit_Framework_TestCase
 
         $resource = new FileResource('/____foo/foobar'.rand(1, 999999));
         $this->assertFalse($resource->isFresh(time()), '->isFresh() returns false if the resource does not exist');
-    }
-
-    public function testSerializeUnserialize()
-    {
-        $unserialized = unserialize(serialize($this->resource));
-
-        $this->assertSame($this->file, $this->resource->getResource());
     }
 }

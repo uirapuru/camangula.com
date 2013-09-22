@@ -26,26 +26,18 @@ class IpUtils
     /**
      * Validates an IPv4 or IPv6 address.
      *
-     * @param string       $requestIp
-     * @param string|array $ips
+     * @param string $requestIp
+     * @param string $ip
      *
      * @return boolean Whether the IP is valid
      */
-    public static function checkIp($requestIp, $ips)
+    public static function checkIp($requestIp, $ip)
     {
-        if (!is_array($ips)) {
-            $ips = array($ips);
+        if (false !== strpos($requestIp, ':')) {
+            return self::checkIp6($requestIp, $ip);
         }
 
-        $method = false !== strpos($requestIp, ':') ? 'checkIp6': 'checkIp4';
-
-        foreach ($ips as $ip) {
-            if (self::$method($requestIp, $ip)) {
-                return true;
-            }
-        }
-
-        return false;
+        return self::checkIp4($requestIp, $ip);
     }
 
     /**

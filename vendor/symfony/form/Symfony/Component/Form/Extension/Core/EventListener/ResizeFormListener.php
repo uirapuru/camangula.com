@@ -57,9 +57,9 @@ class ResizeFormListener implements EventSubscriberInterface
     {
         return array(
             FormEvents::PRE_SET_DATA => 'preSetData',
-            FormEvents::PRE_SUBMIT => 'preSubmit',
+            FormEvents::PRE_BIND => 'preBind',
             // (MergeCollectionListener, MergeDoctrineCollectionListener)
-            FormEvents::SUBMIT => array('onSubmit', 50),
+            FormEvents::BIND => array('onBind', 50),
         );
     }
 
@@ -89,7 +89,7 @@ class ResizeFormListener implements EventSubscriberInterface
         }
     }
 
-    public function preSubmit(FormEvent $event)
+    public function preBind(FormEvent $event)
     {
         $form = $event->getForm();
         $data = $event->getData();
@@ -123,7 +123,7 @@ class ResizeFormListener implements EventSubscriberInterface
         }
     }
 
-    public function onSubmit(FormEvent $event)
+    public function onBind(FormEvent $event)
     {
         $form = $event->getForm();
         $data = $event->getData();
@@ -147,27 +147,5 @@ class ResizeFormListener implements EventSubscriberInterface
         }
 
         $event->setData($data);
-    }
-
-    /**
-     * Alias of {@link preSubmit()}.
-     *
-     * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
-     *             {@link preSubmit()} instead.
-     */
-    public function preBind(FormEvent $event)
-    {
-        $this->preSubmit($event);
-    }
-
-    /**
-     * Alias of {@link onSubmit()}.
-     *
-     * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
-     *             {@link onSubmit()} instead.
-     */
-    public function onBind(FormEvent $event)
-    {
-        $this->onSubmit($event);
     }
 }

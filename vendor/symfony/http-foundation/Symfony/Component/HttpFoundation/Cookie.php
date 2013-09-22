@@ -93,11 +93,11 @@ class Cookie
             }
         }
 
-        if ($this->path) {
+        if ('/' !== $this->path) {
             $str .= '; path='.$this->path;
         }
 
-        if ($this->getDomain()) {
+        if (null !== $this->getDomain()) {
             $str .= '; domain='.$this->getDomain();
         }
 

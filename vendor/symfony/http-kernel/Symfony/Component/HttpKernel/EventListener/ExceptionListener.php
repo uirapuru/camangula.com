@@ -55,9 +55,6 @@ class ExceptionListener implements EventSubscriberInterface
             '_controller' => $this->controller,
             'exception'   => FlattenException::create($exception),
             'logger'      => $this->logger instanceof DebugLoggerInterface ? $this->logger : null,
-            // keep for BC -- as $format can be an argument of the controller callable
-            // see src/Symfony/Bundle/TwigBundle/Controller/ExceptionController.php
-            // @deprecated in 2.4, to be removed in 3.0
             'format'      => $request->getRequestFormat(),
         );
 
@@ -98,12 +95,11 @@ class ExceptionListener implements EventSubscriberInterface
     protected function logException(\Exception $exception, $message, $original = true)
     {
         $isCritical = !$exception instanceof HttpExceptionInterface || $exception->getStatusCode() >= 500;
-        $context = array('exception' => $exception);
         if (null !== $this->logger) {
             if ($isCritical) {
-                $this->logger->critical($message, $context);
+                $this->logger->critical($message);
             } else {
-                $this->logger->error($message, $context);
+                $this->logger->error($message);
             }
         } elseif (!$original || $isCritical) {
             error_log($message);

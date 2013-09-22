@@ -196,7 +196,7 @@ class ObjectChoiceListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Form\Exception\StringCastException
+     * @expectedException \Symfony\Component\Form\Exception\Exception
      */
     public function testInitArrayThrowsExceptionIfToStringNotFound()
     {

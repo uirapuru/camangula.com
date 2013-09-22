@@ -21,8 +21,6 @@ class TranslationExtensionTest extends TestCase
 {
     protected function setUp()
     {
-        parent::setUp();
-
         if (!class_exists('Symfony\Component\Translation\Translator')) {
             $this->markTestSkipped('The "Translation" component is not available');
         }

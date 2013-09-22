@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Extension\Validator\Type;
 
+use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Validator\ViolationMapper\ViolationMapper;
 use Symfony\Component\Form\Extension\Validator\EventListener\ValidationListener;
@@ -21,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class FormTypeValidatorExtension extends BaseValidatorExtension
+class FormTypeValidatorExtension extends AbstractTypeExtension
 {
     /**
      * @var ValidatorInterface
@@ -52,7 +53,23 @@ class FormTypeValidatorExtension extends BaseValidatorExtension
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        // BC clause
+        $constraints = function (Options $options) {
+            return $options['validation_constraint'];
+        };
+
+        // Make sure that validation groups end up as null, closure or array
+        $validationGroupsNormalizer = function (Options $options, $groups) {
+            if (empty($groups)) {
+                return null;
+            }
+
+            if (is_callable($groups)) {
+                return $groups;
+            }
+
+            return (array) $groups;
+        };
 
         // Constraint should always be converted to an array
         $constraintsNormalizer = function (Options $options, $constraints) {
@@ -61,7 +78,10 @@ class FormTypeValidatorExtension extends BaseValidatorExtension
 
         $resolver->setDefaults(array(
             'error_mapping'              => array(),
-            'constraints'                => array(),
+            'validation_groups'          => null,
+            // "validation_constraint" is deprecated. Use "constraints".
+            'validation_constraint'      => null,
+            'constraints'                => $constraints,
             'cascade_validation'         => false,
             'invalid_message'            => 'This value is not valid.',
             'invalid_message_parameters' => array(),
@@ -70,6 +90,7 @@ class FormTypeValidatorExtension extends BaseValidatorExtension
         ));
 
         $resolver->setNormalizers(array(
+            'validation_groups' => $validationGroupsNormalizer,
             'constraints'       => $constraintsNormalizer,
         ));
     }

@@ -82,7 +82,7 @@ class LazyChoiceListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Form\Exception\InvalidArgumentException
+     * @expectedException \Symfony\Component\Form\Exception\Exception
      */
     public function testLoadChoiceListShouldReturnChoiceList()
     {
