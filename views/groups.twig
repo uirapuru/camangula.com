@@ -1,0 +1,35 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <ul class="span4" id="mainMenu">
+            {% include "_menu.twig" %}
+        </ul>
+        <div class="span8" id="clubsList" ng-controller="ClubsController">
+            <div class="row-fluid">
+                <ul class="span4" id="listCountries">
+                    <li ng-repeat="(symbol,country) in countries" class="item">
+                        <a href="#" ng-click="chooseCountry(symbol)">
+                            <img src="#" ng-src="http://placehold.it/60/60" />{[ country ]}
+                        </a>
+                    </li>
+                </ul>
+                <div class="span8">
+                    <h1>{[ countries[country] ]}</h1>
+                    <ul id="listClubs">
+                        <li ng-repeat="(city,data) in clubs[country]" class="item">
+                            <h2>{[city]}</h2>
+                            <strong>www:</strong> <a href="#" ng-href="http://{[data.www]}">{[data.www]}</a><br />
+                            <strong>fb:</strong> <a  href="#" ng-href="http://facebook.com/{[data.fb]}">{[data.fb]}</a><br />
+                            <strong>mail:</strong> <a href="#" ng-href="mailto:{[data.mail]}">{[data.mail]}</a><br />
+                            <strong>gsm:</strong> {[data.gsm]}<br />
+                            <a href="#">show on map</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
