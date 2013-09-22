@@ -21,7 +21,7 @@ $bootstrap->registerServices();
 
 $app = $bootstrap->getApp();
 
-$app->match('/clubs.html',
+$app->match('/clubs',
           function () use ($app) {
                     return $app['twig']->render('clubs.twig',array());
                 });
