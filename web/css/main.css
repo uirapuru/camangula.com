@@ -114,35 +114,25 @@ body {
 
 #tails .item {
     background-color: rgba(0,0,255,0.3);
-    padding: 12px;
-    margin: 6px;
-    display: inline-block;
+    padding: 10px;
+    margin: 5px;
     border-radius: 10px;
 }
 #tails .item:hover {
     background-color: rgba(0,0,255,1);
 }
 
-#tails .item.size0 img {
-    width: 140px 
+#tails .item.vsmall {
+    width: 80px 
 }
-#tails .item.size1 img {
-    width: 200px 
+#tails .item.small {
+    width: 120px 
 }
-#tails .item.size2 img {
-    width: 180px 
+#tails .item.medium {
+    width: 240px 
 }
-#tails .item.size3 img {
-    width: 220px 
-}
-#tails .item.size4 img {
-    width: 170px 
-}
-#tails .item.size5 img {
-    width: 210px 
-}
-#tails .item.size6 img {
-    width: 160px 
+#tails .item.big {
+    width: 320px 
 }
 
 #mainMenu {

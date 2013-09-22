@@ -23,7 +23,13 @@
 }());
 
 $(document).ready(function() {
-    $('#tails').masonry({"columnWidth": 1, "itemSelector": ".item", "animate": true});
+    $('#tails').isotope({
+        itemSelector: '.item',
+        masonry: {
+            columnWidth: 15
+        }
+    });
+
 
     $("#tails a[rel^='prettyPhoto']").prettyPhoto();
 });

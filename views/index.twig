@@ -4,11 +4,11 @@
 <div class="container-fluid" ng-controller="BoardController">
     <div class="row-fluid">
         <div id="tails" class="span8">
-            <a ng-repeat='video in videos' class="item size{[$index%7]}" href="http://www.youtube.com/watch?v={[video]}" rel="prettyPhoto[videos]">
-                <img src="#" ng-src="http://img.youtube.com/vi/{[video]}/0.jpg" />
-            </a>
+                <a ng-repeat='(video, class) in videos' class="item {[class]}" href="http://www.youtube.com/watch?v={[video]}" rel="prettyPhoto[videos]">
+                    <img src="#" ng-src="http://img.youtube.com/vi/{[video]}/0.jpg" />
+                </a>
         </div>
-        <ul class="span4" id="mainMenu">
+        <ul class="span4 pull-right" id="mainMenu">
             <li class="item">
                 <a href="#">News</a>
             </li>
@@ -16,7 +16,7 @@
                 <a href="#">Events</a>
             </li>
             <li class="item">
-                <a href="/clubs.html">Clubs</a>
+                <a href="#">Groups</a>
             </li>
             <li class="item">
                 <a href="#">Contact</a>
