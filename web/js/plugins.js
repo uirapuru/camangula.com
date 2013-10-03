@@ -1,4 +1,3 @@
-// Avoid `console` errors in browsers that lack a console.
 (function() {
     var method;
     var noop = function() {
@@ -33,4 +32,3 @@ $(document).ready(function() {
 
     $("#tails a[rel^='prettyPhoto']").prettyPhoto();
 });
-// Place any jQuery/helper plugins in here.

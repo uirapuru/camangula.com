@@ -21,6 +21,9 @@ $bootstrap->registerServices();
 
 $app = $bootstrap->getApp();
 
+$app->match('/events.html', function () use ($app) {
+                    return $app['twig']->render('events.twig', array());
+                });
 $app->match('/groups.html', function () use ($app) {
                     return $app['twig']->render('groups.twig', array());
                 });

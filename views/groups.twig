@@ -8,18 +8,17 @@
         </ul>
         <div class="span8" id="clubsList" ng-controller="ClubsController">
             <div class="row-fluid">
-                <ul class="span4" id="listCountries">
-                    <li ng-repeat="(symbol,country) in countries" class="item">
+                <ul class="span3 offset1" id="listCountries">
+                    <li ng-repeat="(symbol,cntry) in countries" class="item" ng-class="{active: symbol == country}">
                         <a href="#" ng-click="chooseCountry(symbol)">
-                            <img src="#" ng-src="http://placehold.it/60/60" />{[ country ]}
+                            <img src="#" ng-src="http://placehold.it/75/75" />{[ cntry ]}
                         </a>
                     </li>
                 </ul>
-                <div class="span8">
-                    <h1>{[ countries[country] ]}</h1>
+                <div class="span6">
                     <ul id="listClubs">
                         <li ng-repeat="(city,data) in clubs[country]" class="item">
-                            <h2>{[city]}</h2>
+                            <h2 class="cityTitle">{[city]}</h2>
                             <strong>www:</strong> <a href="#" ng-href="http://{[data.www]}">{[data.www]}</a><br />
                             <strong>fb:</strong> <a  href="#" ng-href="http://facebook.com/{[data.fb]}">{[data.fb]}</a><br />
                             <strong>mail:</strong> <a href="#" ng-href="mailto:{[data.mail]}">{[data.mail]}</a><br />
@@ -28,6 +27,9 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div class="row-fluid">
+                <button class="pull-right btn btn-primary btn-large">Dodaj klub</button>
             </div>
         </div>
     </div>
