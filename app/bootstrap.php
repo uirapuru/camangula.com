@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL);
 require __DIR__ . '/../vendor/facebook/php-sdk/src/facebook.php';
 
 class Bootstrap {
