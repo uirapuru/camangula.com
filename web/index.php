@@ -23,27 +23,27 @@ $app = $bootstrap->getApp();
 
 $app->match('/clubs.html',
           function () use ($app) {
-                    return $app['twig']->render('clubs.twig.html',array());
+                    return $app['twig']->render('clubs.html.twig',array());
                 });
 $app->match('/events.html',
           function () use ($app) {
-                    return $app['twig']->render('events.twig.html',array());
+                    return $app['twig']->render('events.html.twig',array());
                 });
 $app->match('/news.html',
           function () use ($app) {
-                    return $app['twig']->render('news.twig.html',array());
+                    return $app['twig']->render('news.html.twig',array());
                 });
 $app->match('/contact.html',
           function () use ($app) {
-                    return $app['twig']->render('contact.twig.html',array());
+                    return $app['twig']->render('contact.html.twig',array());
                 });
-$app->match('/start.html',
+$app->match('start.html',
           function () use ($app) {
-                    return $app['twig']->render('start.twig.html',array());
+                    return $app['twig']->render('start.html.twig',array());
                 });
 $app->match('/',
           function () use ($app) {
-                    return $app['twig']->render('start.twig.html',array());
+                    return $app['twig']->render('index.html.twig',array());
                 });
 
 $app->run();
