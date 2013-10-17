@@ -1,0 +1,1 @@
+/usr/local/php5.3/bin/php composer.phar $@
