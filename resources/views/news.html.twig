@@ -1,0 +1,6 @@
+{% for news in newsCollection %}
+<article id="{{ "news" ~ news.id}}">
+    <h3>{{ news.timestamp }}</h3>
+    <section>{{ news.content }}</section>
+</article>
+{% endfor %}

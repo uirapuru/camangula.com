@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL);
 
 class Bootstrap {
@@ -28,13 +29,20 @@ class Bootstrap {
 
     public function registerServices() {
         $this->app->register(new Silex\Provider\TwigServiceProvider(), array(
-            'twig.path'    => __DIR__ . '/../views',
+            'twig.path'    => __DIR__ . '/../resources/views',
             'twig.options' => array(
-                'cache' => __DIR__ . '/../views/cache',
+                'cache' => __DIR__ . '/../resources/views/cache',
             )
         ));
 
         $this->app->register(new Silex\Provider\SessionServiceProvider());
+
+        $this->app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+            'db.options' => array(
+                'driver' => 'pdo_sqlite',
+                'path'   => __DIR__ . '/../resources/app.db',
+            ),
+        ));
     }
 
 }

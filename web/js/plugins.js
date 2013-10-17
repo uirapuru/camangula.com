@@ -21,10 +21,7 @@
         }
     }
 }());
-
-$(document).ready(function() {
-    $('#tails').masonry({"columnWidth": 1, "itemSelector": ".item", "animate": true});
-
-    $("#tails a[rel^='prettyPhoto']").prettyPhoto();
-});
-// Place any jQuery/helper plugins in here.
+//
+//$(document).ready(function() {
+//    $("#tails a[rel^='prettyPhoto']").prettyPhoto();
+//});
