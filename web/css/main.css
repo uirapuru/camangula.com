@@ -102,6 +102,10 @@ html {
     width: 100%;
 }
 
+#map-continents-wrapper {
+    margin-top: 50px;
+}
+
 body {
     height: 100%;
     width: 100%;
@@ -111,6 +115,9 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     padding: 0;
+}
+body > div {
+    padding: 0 !important;
 }
 
 #tails {

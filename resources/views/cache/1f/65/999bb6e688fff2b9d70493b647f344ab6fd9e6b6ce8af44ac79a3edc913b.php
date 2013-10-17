@@ -23,7 +23,7 @@ class __TwigTemplate_1f65999bb6e688fff2b9d70493b647f344ab6fd9e6b6ce8af44ac79a3ed
     public function block_content($context, array $blocks = array())
     {
         // line 2
-        echo "<div id=\"tails\" class=\"span8\" videos=\"collection\" ng-controller=\"BoardController\"></div>
+        echo "<div id=\"tails\" videos=\"collection\" ng-controller=\"BoardController\"></div>
 ";
     }
 
