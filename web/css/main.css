@@ -126,10 +126,10 @@ body > div {
 
 #tails .item {
     background-color: rgba(0,0,255,0.3);
-    padding: 12px;
-    margin: 6px;
-    display: inline-block;
+    padding: 10px;
+    margin: 5px;
     border-radius: 10px;
+    display: block;
 }
 #tails .item:hover {
     background-color: rgba(0,0,255,1);
@@ -187,19 +187,63 @@ body > div {
     color: rgba(255,255,255,0.1);
     text-decoration: none;
 }
-#mainMenu .item:hover {
+#mainMenu .item:hover
+{
     background-color: rgba(0,0,255,1);
 }
-#mainMenu .item:hover a {
+#mainMenu .item:hover a,
+#mainMenu .item.active a
+{
     color: rgba(255,255,255,1);
+}
 
+#clubsList {
+    background-color: rgba(0,0,255,0.3);
+    min-height: 800px;
 }
 
 
+#listCountries {
+    margin-top: 50px;
+        list-style: none;
 
+}
 
+#listCountries .item {
+    margin-bottom: 25px;
+}
 
+#listCountries .item a {
+    height: 75px;
+    width: 100%;
+    display: block;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    overflow: hidden;
+    text-decoration: none;
+}
+#listCountries .item.active a {
+    color: red;
+}
 
+#listCountries .item a img {
+    width: 75px;
+    height: 75px;
+    margin-right: 20px;
+}
+
+#listClubs {
+    height: 600px;
+    overflow: auto; 
+    margin-top: 50px;
+    list-style: none;
+}
+
+#listClubs .cityTitle {
+    margin-bottom: 0;
+    margin-top: 20px;
+}
 
 
 

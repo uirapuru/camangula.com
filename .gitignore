@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 nbproject/
 resources/views/cache
 vendor/
+=======
+nbproject
+views/cache
+
+>>>>>>> cd85b71fd3b07d65000fa8fbaac3614759795451
