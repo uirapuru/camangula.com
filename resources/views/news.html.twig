@@ -1,6 +1,10 @@
+<div class="container-fluid" id="news-list">
 {% for news in newsCollection %}
-<article id="{{ "news" ~ news.id}}">
-    <h3>{{ news.timestamp }}</h3>
-    <section>{{ news.content }}</section>
-</article>
+    <div class="row-fluid news-container">
+        <article id="{{ "news" ~ news.id}}" class="span12 news">
+            <h3>{{ news.timestamp }}</h3>
+            <section>{{ news.content }}</section>
+        </article>
+    </div>
 {% endfor %}
+</div>
