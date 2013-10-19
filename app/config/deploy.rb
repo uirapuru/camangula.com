@@ -24,7 +24,7 @@ set :model_manager, "doctrine"
 # Or: `propel`
 
 # Be more verbose by uncommenting the following line
-# logger.level = Logger::MAX_LEVEL
+logger.level = Logger::MAX_LEVEL
 
 namespace :deploy do
   task :composer, :roles => :web do
