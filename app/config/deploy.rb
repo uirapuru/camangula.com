@@ -27,10 +27,10 @@ set :model_manager, "doctrine"
 # Be more verbose by uncommenting the following line
 logger.level = Logger::MAX_LEVEL
 
-namespace :deploy do
-  task :composer, :roles => :web do
-    run "cd #{ current_path } && ./composer install -q"
-  end
-end
+# namespace :deploy do
+#  task :composer, :roles => :web do
+#    run "cd #{ current_path } && ./composer install -q"
+#  end
+# end
 
-after "deploy", "deploy:composer" 
+# after "deploy", "deploy:composer" 
