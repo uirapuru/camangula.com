@@ -124,6 +124,10 @@ body > div {
     height: 100% !important;
 }
 
+#news-list .news-container:first-child {
+    margin-top: 120px;
+}
+
 #news-list article.news {
     background-color: rgba(0,0,255,0.3);
     border-radius: 10px;
@@ -132,7 +136,7 @@ body > div {
 }
 
 #news-list div.news-container {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 #tails .item {
