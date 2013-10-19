@@ -4,7 +4,7 @@ set   :domain,        "s78.vdl.pl"
 
 set   :scm,           :git
 set   :port,          "59184"
-set   :repository,    "ssh://s78.vdl.pl:59184/home/uirapuru/domains/camangula.git"
+set   :repository,    "ssh://uirapuru@s78.vdl.pl:59184/home/uirapuru/domains/camangula.git"
 
 set :branch, fetch(:branch, "master")
 set :env, fetch(:env, "production")
