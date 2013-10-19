@@ -3,11 +3,13 @@ set   :deploy_to,     "/home/uirapuru/domains/camangula.com/"
 set   :domain,        "s78.vdl.pl"
 
 set   :scm,           :git
+set   :port,          "59184"
 set   :repository,    "ssh://uirapuru@uirapuruadg.no-ip.org/home/uirapuru/git/camangula.com.git"
 
 set :branch, fetch(:branch, "master")
 set :env, fetch(:env, "production")
 
+ssh_options[:port] = "59184"
 set :ssh_options, { :forward_agent => true }
 
 role  :web,           "s78.vdl.pl"
