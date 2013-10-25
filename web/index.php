@@ -26,11 +26,9 @@ $app->match('/clubs.html', function () use ($app) {
 });
 $app->match('/events.html', function () use ($app) {
     $sql = "SELECT * FROM events";
-    $events = $app['db']->fetchAssoc($sql);
+    $events = $app['db']->executeQuery($sql);
 
-    return json_encode($events ? $events : array());
-
-//    return $app['twig']->render('events.html.twig', array("events" => $events));
+    return $app['twig']->render('events.html.twig', array("eventsCollection" => $events));
 });
 $app->match('/news.html', function () use ($app) {
     $sql = "SELECT * FROM news ORDER BY timestamp";

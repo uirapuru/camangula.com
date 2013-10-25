@@ -124,18 +124,23 @@ body > div {
     height: 100% !important;
 }
 
-#news-list {
+#news-list,
+#events-list
+{
     margin-top: 60px;
 }
 
-#news-list article.news {
+#news-list article.news,
+#events-list article.event
+{
     background-color: rgba(0,0,255,0.3);
     border-radius: 10px;
     font-size: 24px;
     padding: 20px;
 }
 
-#news-list div.news-container {
+#news-list div.news-container,
+#news-list div.event-container {
     margin-bottom: 10px;
 }
 
