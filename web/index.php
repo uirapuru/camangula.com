@@ -43,6 +43,10 @@ $app->match('/contact.html', function () use ($app) {
 $app->match('groups.html', function () use ($app) {
     return $app['twig']->render('groups.html.twig', array());
 });
+$app->match('groups/{country}.html', function ($country) use ($app) {
+    var_dump($country);
+    return $app['twig']->render('groups.html.twig', array());
+});
 $app->match('start.html', function () use ($app) {
     return $app['twig']->render('start.html.twig', array());
 });
